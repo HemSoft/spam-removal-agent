@@ -1,4 +1,4 @@
-# Spam Removal Agent - GitHub Copilot Instructions
+﻿# Spam Removal Agent - GitHub Copilot Instructions
 
 ## Project Overview
 This is a .NET 10 C# Console Agent Application that autonomously connects to Outlook mailboxes via Microsoft Graph .NET SDK and removes spam emails. The application uses Microsoft Agent Framework for autonomous operation, .NET Aspire for orchestration and observability, and Application Insights for production telemetry.

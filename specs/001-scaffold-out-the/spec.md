@@ -1,9 +1,9 @@
 ````markdown
 # Feature Specification: Project Structure Scaffolding
 
-**Feature Branch**: `001-scaffold-out-the`  
-**Created**: October 5, 2025  
-**Status**: Draft  
+**Feature Branch**: `001-scaffold-out-the`
+**Created**: October 5, 2025
+**Status**: Draft
 **Input**: User description: "Scaffold out the dotnet projects needed for this project"
 
 ## Execution Flow (main)
@@ -38,6 +38,17 @@
 
 ---
 
+## Clarifications
+
+### Session 2025-10-05
+- Q: Should the .NET Aspire AppHost project be included in the initial scaffolding? → A: Include Aspire AppHost now - enables development-time observability dashboard from the start
+- Q: Which test framework should be used for the test projects? → A: xUnit - Modern framework with excellent async support, widely used in .NET community
+- Q: What should happen when the scaffolding process detects existing project files or folders that conflict with the planned structure? → A: Fail immediately with error - require manual cleanup before proceeding to ensure clean state
+- Q: Should the scaffolding include centralized package management configuration? → A: Neither - keep package management decentralized in individual project files for simplicity
+- Q: What should the initial Program.cs entry point display when first executed? → A: Spam Removal Agent v1.0.0
+
+---
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### Primary User Story
@@ -51,9 +62,9 @@ As a developer working on the Spam Removal Agent project, I need a properly stru
 5. **Given** the test project structure, **When** a developer needs to add tests, **Then** they have clearly organized locations for unit tests, integration tests, and test utilities
 
 ### Edge Cases
-- What happens when the repository already contains partial project files? (Should detect and integrate or warn about conflicts)
-- How does the structure handle future addition of new service layers or components? (Should be extensible without restructuring)
-- What if .NET 10 SDK is not installed? (Should fail with clear error message indicating missing prerequisites)
+- What happens when the repository already contains partial project files? System MUST detect conflicts and fail immediately with a clear error message listing the conflicting files, requiring manual cleanup before proceeding
+- How does the structure handle future addition of new service layers or components? Folder structure MUST be extensible through addition of new subdirectories without requiring restructuring of existing organization
+- What if .NET 10 SDK is not installed? System MUST fail with clear error message indicating missing prerequisites and required SDK version
 
 ## Requirements *(mandatory)*
 
@@ -74,20 +85,27 @@ As a developer working on the Spam Removal Agent project, I need a properly stru
 #### Test Projects
 - **FR-009**: Test structure MUST include separate organization for unit tests, integration tests, and test utilities
 - **FR-010**: Test projects MUST reference the main application project to enable testing of its components
-- **FR-011**: Test projects MUST be configured with appropriate test framework support
+- **FR-011**: Test projects MUST be configured with xUnit test framework support including test runner and assertion libraries
 
 #### Build and Execution
 - **FR-012**: Solution MUST be buildable using standard .NET CLI commands without errors on a clean build
-- **FR-013**: Main application MUST be executable after building, even if it only displays a startup message initially
+- **FR-013**: Main application MUST be executable after building and output "Spam Removal Agent v1.0.0" as initial startup message to console via logging infrastructure
 - **FR-014**: All projects MUST have properly configured project files with correct SDK references and target frameworks
+
+#### Error Handling
+- **FR-021**: System MUST detect existing project files or folders that conflict with the scaffolding plan before making any changes
+- **FR-022**: When conflicts are detected, system MUST fail immediately with a clear error message listing all conflicting paths
+- **FR-023**: System MUST verify .NET 10 SDK is installed before attempting scaffolding and fail with actionable error message if missing
 
 #### Documentation and Organization
 - **FR-015**: Project structure MUST align with the architecture defined in `.github/copilot-instructions.md`
 - **FR-016**: Folder structure MUST support the Spec-Driven Development workflow with clear locations for specifications, plans, and implementation
 - **FR-017**: Repository MUST include a README or documentation file that explains the project structure and how to build/run the application
 
-#### Optional: Aspire Orchestration
-- **FR-018**: If .NET Aspire orchestration is included, it MUST be in a separate AppHost project [NEEDS CLARIFICATION: Should Aspire AppHost be included in initial scaffolding, or added in a later feature?]
+#### Aspire Orchestration
+- **FR-018**: Solution MUST include a .NET Aspire AppHost project in a separate project for development-time observability and orchestration
+- **FR-019**: AppHost project MUST reference the main console application project to enable orchestrated execution
+- **FR-020**: AppHost project MUST be configured with Aspire dashboard support for monitoring agent operations during development
 
 ### Key Entities *(included - feature involves project and folder structure)*
 
@@ -110,7 +128,7 @@ As a developer working on the Spam Removal Agent project, I need a properly stru
 - [x] All mandatory sections completed
 
 ### Requirement Completeness
-- [ ] No [NEEDS CLARIFICATION] markers remain - *One clarification needed for Aspire AppHost*
+- [x] No [NEEDS CLARIFICATION] markers remain - *Aspire AppHost clarified: included in initial scaffolding*
 - [x] Requirements are testable and unambiguous - *All can be verified by file system and build checks*
 - [x] Success criteria are measurable - *Build success and folder structure existence*
 - [x] Scope is clearly bounded - *Limited to project scaffolding, not feature implementation*
@@ -123,11 +141,11 @@ As a developer working on the Spam Removal Agent project, I need a properly stru
 
 - [x] User description parsed
 - [x] Key concepts extracted
-- [x] Ambiguities marked (1 clarification needed)
+- [x] Ambiguities resolved (5 clarifications completed)
 - [x] User scenarios defined
 - [x] Requirements generated
 - [x] Entities identified
-- [x] Review checklist passed (with minor clarification pending)
+- [x] Review checklist passed
 
 ---
 
@@ -139,7 +157,7 @@ When creating the technical plan for this specification, consider:
 2. **Git Integration**: Scaffolding should not conflict with existing Spec-Driven Development folder structure (`.specify/` directory)
 3. **Extensibility**: Folder structure should accommodate future features defined in upcoming specifications
 4. **Build Verification**: Include automated build checks to validate successful scaffolding
-5. **Aspire Decision**: Clarify whether Aspire AppHost should be included initially or deferred to a later feature focused on observability
+5. **Aspire Integration**: AppHost project should be configured for immediate use with the Aspire dashboard, enabling observability from first run
 
-This specification is ready for the `/clarify` phase to resolve the Aspire AppHost question, followed by `/plan` to create the technical implementation plan.
+This specification has completed the `/clarify` phase and is ready for `/plan` to create the technical implementation plan.
 ````
