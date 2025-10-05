@@ -45,7 +45,7 @@ This document defines the entities and relationships for the project scaffolding
 - **ProjectFile**: `SpamRemovalAgent.csproj`
 - **TargetFramework**: `net10.0`
 - **OutputType**: `Exe` (console application)
-- **RootNamespace**: `SpamRemovalAgent`
+- **RootNamespace**: `HemSoft.SpamRemovalAgent`
 - **LangVersion**: `latest`
 - **Nullable**: `enable`
 - **ImplicitUsings**: `enable`
@@ -94,7 +94,7 @@ This document defines the entities and relationships for the project scaffolding
 - **TargetFramework**: `net10.0`
 - **OutputType**: `Exe`
 - **IsAspireHost**: `true`
-- **RootNamespace**: `SpamRemovalAgent.AppHost`
+- **RootNamespace**: `HemSoft.SpamRemovalAgent.AppHost`
 
 **Dependencies**:
 - `Aspire.Hosting.AppHost` (≥10.0.0)
@@ -128,7 +128,7 @@ This document defines the entities and relationships for the project scaffolding
 - **ProjectFile**: `SpamRemovalAgent.Tests.csproj`
 - **TargetFramework**: `net10.0`
 - **IsPackable**: `false`
-- **RootNamespace**: `SpamRemovalAgent.Tests`
+- **RootNamespace**: `HemSoft.SpamRemovalAgent.Tests`
 
 **Dependencies**:
 - `xunit` (≥2.9.0)
@@ -288,7 +288,7 @@ This document defines the entities and relationships for the project scaffolding
 **Structure**:
 ```csharp
 // Top-level statements
-using SpamRemovalAgent.Hosting;
+using HemSoft.SpamRemovalAgent.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 

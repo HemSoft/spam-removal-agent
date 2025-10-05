@@ -246,6 +246,8 @@ builder.Services.AddHostedService<StartupService>();
 var host = builder.Build();
 await host.RunAsync();
 
+namespace HemSoft.SpamRemovalAgent;
+
 // Temporary startup service to satisfy FR-013
 public class StartupService : IHostedService
 {
