@@ -51,6 +51,13 @@ All features begin with specifications in `.specify/memory/specs/`, followed by 
 - Include: timestamps, email metadata, confidence scores, decision rationale
 - Application Insights integration required for production telemetry
 
+### 6. **Zero Build Warnings** (Article VI - NON-NEGOTIABLE)
+- `TreatWarningsAsErrors` enabled in ALL .csproj files
+- Nullable reference types enabled (`<Nullable>enable</Nullable>`)
+- Code analysis on all builds
+- NO warning suppressions without documented justification
+- CI/CD MUST fail on warnings
+
 **📜 Full Constitution**: See `.specify/memory/constitution.md` for complete details, rationale, and governance
 
 ## Technology Stack
@@ -130,6 +137,15 @@ src/
 **🏗️ Detailed Architecture**: Create `docs/architecture.md` during `/plan` phase with complete component diagrams and interactions
 
 ## Code Guidelines & Quality Standards
+
+### Code Style
+- **Using Statements**: Place `using` statements inside namespace declarations, not at file scope
+
+### Build Quality (NON-NEGOTIABLE)
+- **Zero Build Warnings**: All projects MUST compile without warnings
+- `TreatWarningsAsErrors=true` in all .csproj files
+- Nullable reference types enabled to prevent null reference issues
+- Address warnings immediately, never suppress without justification
 
 ### Security (NON-NEGOTIABLE)
 - Store OAuth tokens in **Windows Credential Manager** (never plaintext, never config files)

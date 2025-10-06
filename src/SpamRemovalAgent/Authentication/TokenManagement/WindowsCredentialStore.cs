@@ -1,15 +1,17 @@
+namespace SpamRemovalAgent.Authentication.TokenManagement;
+
+using System.Runtime.Versioning;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using SpamRemovalAgent.Authentication.Exceptions;
 using SpamRemovalAgent.Authentication.Models;
 
-namespace SpamRemovalAgent.Authentication.TokenManagement;
-
 /// <summary>
 /// Token store implementation using Windows Credential Manager via DPAPI.
 /// Tokens are encrypted with the current user's Windows credentials.
 /// </summary>
+[SupportedOSPlatform("windows")]
 public class WindowsCredentialStore : ITokenStore
 {
     private const string TargetName = "SpamRemovalAgent.OAuth";
