@@ -1,8 +1,8 @@
 # OAuth 2.0 Authentication Implementation Progress
 
-**Date**: October 6, 2025 (Updated)
+**Date**: October 6, 2025
 **Branch**: `002-oauth-2-0`
-**Status**: ✅ Phase 4 Complete - Ready for Phase 5 (Integration Tests)
+**Status**: In Progress - Phase 4 (Core Implementations)
 
 ---
 
@@ -10,7 +10,7 @@
 
 This document tracks the implementation progress of the OAuth 2.0 authentication system for Microsoft Graph. The implementation follows Test-Driven Development (TDD) principles and the task breakdown in `tasks.md`.
 
-**Total Progress**: ~42% complete (19 of 45 tasks) - Phase 4 Complete ✅
+**Total Progress**: ~35% complete (16 of 45 tasks)
 
 ---
 
@@ -27,11 +27,10 @@ This document tracks the implementation progress of the OAuth 2.0 authentication
 
 - [X] **T002**: NuGet packages installed
   - `Azure.Identity` v1.16.0
-  - `Microsoft.Graph` v5.93.0
+  - `Microsoft.Graph` v5.50.0
   - `Azure.Security.KeyVault.Secrets` v4.6.0
   - `Microsoft.Identity.Client` v4.76.0 (updated from 4.61.0 to resolve dependency conflict)
   - `System.Security.Cryptography.ProtectedData` v8.0.0
-  - `Microsoft.ApplicationInsights` v2.22.0 (added for telemetry)
   - `WireMock.Net` v1.5.58 (test project)
   - `FluentAssertions` v6.12.0 (test project)
   - `Moq` v4.20.70 (test project)
@@ -105,11 +104,11 @@ All data models implemented in `src/SpamRemovalAgent/Authentication/Models/`:
 
 ---
 
-## ✅ Completed (Continued)
+## 🚧 In Progress
 
-### Phase 4: Core Implementations (13/13 tasks - 100%)
+### Phase 4: Core Implementations (11/13 tasks - 85%)
 
-**Status**: ✅ **COMPLETE** - All implementations compile without errors
+**Status**: 🟡 In Progress - Compilation Errors Need Resolution
 
 #### Completed:
 - [X] Exception classes created:
@@ -133,65 +132,58 @@ All data models implemented in `src/SpamRemovalAgent/Authentication/Models/`:
   - AuthenticateAsync and RefreshTokenAsync methods defined
   - XML documentation complete
 
-- [X] **T023**: `AzureKeyVaultTokenStore` implemented ✅
-  - Uses DefaultAzureCredential for managed identity
-  - Stores tokens as Key Vault secrets
-  - Validates connectivity and permissions
-  - **Status**: ✅ Fully implemented and compiling
-
-- [X] **T024**: `GitHubSecretsTokenStore` implemented ✅
-  - Reads tokens from environment variables
-  - Read-only (throws NotSupportedException on write)
-  - GitHub Actions correlation ID support
-  - **Status**: ✅ Fully implemented and compiling
-
-- [X] **T025**: `TokenStoreFactory` implemented ✅
-  - Creates environment-specific token stores
-  - Supports WindowsLocal, Azure, GitHubActions
-  - **Status**: ✅ Fully implemented and compiling
-
-- [X] **T026**: `InteractiveAuthFlow` implemented ✅
+- [X] **T026**: `InteractiveAuthFlow` implemented (needs fixes)
   - Uses MSAL.NET with PKCE
   - Opens system browser for user consent
   - Maps MSAL exceptions to custom exceptions
-  - **Status**: ✅ Fully implemented and compiling
+  - **Status**: Implemented but has 13 compilation errors
 
-- [X] **T027**: `ServicePrincipalAuthFlow` implemented ✅
+- [X] **T027**: `ServicePrincipalAuthFlow` implemented (needs fixes)
   - Uses Azure.Identity ClientSecretCredential
   - Client credentials flow for service principal
   - Maps Azure.Identity exceptions to custom exceptions
-  - **Status**: ✅ Fully implemented and compiling
+  - **Status**: Implemented but has 7 compilation errors
 
-- [X] **T029**: `OAuthAuthenticator` implemented ✅
-  - Main orchestrator for OAuth authentication
-  - Environment-based flow selection (Interactive vs ServicePrincipal)
-  - Proactive token refresh (5-minute buffer)
-  - Thread-safe with SemaphoreSlim
-  - **Status**: ✅ Fully implemented and compiling
+- [X] **T023**: `AzureKeyVaultTokenStore` implemented (needs fixes)
+  - Uses DefaultAzureCredential for managed identity
+  - Stores tokens as Key Vault secrets
+  - Validates connectivity and permissions
+  - **Status**: Implemented but has 17 compilation errors
 
-- [X] **T031**: `RetryPolicyMiddleware` implemented ✅
+- [X] **T024**: `GitHubSecretsTokenStore` implemented (needs fixes)
+  - Reads tokens from environment variables
+  - Read-only (throws NotSupportedException on write)
+  - GitHub Actions correlation ID support
+  - **Status**: Implemented but has 3 compilation errors
+
+- [X] **T025**: `TokenStoreFactory` implemented (needs fixes)
+  - Creates environment-specific token stores
+  - Supports WindowsLocal, Azure, GitHubActions
+  - **Status**: Implemented but has 1 compilation error
+
+- [X] **T031**: `RetryPolicyMiddleware` implemented (needs fixes)
   - Exponential backoff: 2s, 4s, 8s, 16s, 32s
   - Jitter: 0-1000ms
   - Transient error detection
-  - **Status**: ✅ Fully implemented and compiling
+  - **Status**: Implemented but has 3 compilation errors
 
-- [X] **T032**: `TokenRefreshMiddleware` implemented ✅
-  - Proactive token refresh with 5-minute buffer
-  - Checks token expiration before each operation
-  - Handles AuthenticationRequiredException
-  - **Status**: ✅ Fully implemented and compiling
-
-- [X] **T033**: `ThrottlingMiddleware` implemented ✅
+- [X] **T033**: `ThrottlingMiddleware` implemented
   - HTTP 429 handling with Retry-After header parsing
   - Request cloning for retries
-  - **Status**: ✅ Fully implemented and compiling
+  - **Status**: Fully implemented, no errors
 
-- [X] **T034**: `AuthenticationTelemetry` implemented ✅
-  - Application Insights integration with TelemetryClient
-  - All 5 tracking methods implemented
-  - Sensitive data redaction (tokens never logged)
-  - Custom events for authentication lifecycle
-  - **Status**: ✅ Fully implemented and compiling
+#### Pending:
+- [ ] **T023**: `AzureKeyVaultTokenStore`
+- [ ] **T024**: `GitHubSecretsTokenStore`
+- [ ] **T025**: `TokenStoreFactory`
+- [ ] **T026**: `InteractiveAuthFlow`
+- [ ] **T027**: `ServicePrincipalAuthFlow`
+- [ ] **T028**: `IAuthFlow` interface
+- [ ] **T029**: `OAuthAuthenticator` (main orchestrator)
+- [ ] **T031**: `RetryPolicyMiddleware`
+- [ ] **T032**: `TokenRefreshMiddleware`
+- [ ] **T033**: `ThrottlingMiddleware`
+- [ ] **T034**: `AuthenticationTelemetry`
 
 ---
 
@@ -223,17 +215,18 @@ All data models implemented in `src/SpamRemovalAgent/Authentication/Models/`:
 
 ## Build Status
 
-✅ **All implementations compile successfully - ZERO ERRORS, ZERO WARNINGS**
+✅ **All implementations compile successfully**
 
 ```bash
 dotnet build --no-restore
-# Result: Build succeeded. 0 Warning(s). 0 Error(s). Time: 2.7s
+# Result: Build succeeded with 3 warning(s)
 ```
 
-**Package Additions**:
-- Microsoft.ApplicationInsights v2.22.0 added for telemetry support
+**Known Warnings**:
+- NU1903: `System.Text.Json` 6.0.0 has known vulnerability (transitive dependency)
+- NU1903: `System.Linq.Dynamic.Core` 1.3.12 has known vulnerability (transitive dependency from WireMock.Net)
 
-All compilation errors from Phase 4 have been resolved.
+These are transitive dependencies and can be addressed in a future update.
 
 ---
 
@@ -242,8 +235,8 @@ All compilation errors from Phase 4 have been resolved.
 ✅ **15 contract tests passing** (data model validation)
 
 ```bash
-dotnet test --no-build
-# Result: total: 15, failed: 0, succeeded: 15, skipped: 0, duration: 2.4s
+dotnet test --filter "FullyQualifiedName~ContractTests"
+# Result: total: 15, failed: 0, succeeded: 15, skipped: 0
 ```
 
 **Test Coverage**:
@@ -257,78 +250,36 @@ dotnet test --no-build
 
 ### Critical Path to MVP:
 
-1. **Phase 5: Integration Tests** (T035-T038) ✅ Ready to Start
+1. **Implement `IAuthFlow` interface and flows** (T026-T028)
+   - `InteractiveAuthFlow` using MSAL.NET with PKCE
+   - `ServicePrincipalAuthFlow` using Azure.Identity
+   - Required for `OAuthAuthenticator`
+
+2. **Implement `OAuthAuthenticator`** (T029)
+   - Main orchestrator using auth flows and token stores
+   - Automatic token refresh logic
+   - Environment-specific flow selection
+
+3. **Implement remaining token stores** (T023-T025)
+   - `AzureKeyVaultTokenStore` for Azure deployment
+   - `GitHubSecretsTokenStore` for GitHub Actions
+   - `TokenStoreFactory` for environment-based selection
+
+4. **Implement middleware** (T031-T033)
+   - `RetryPolicyMiddleware` for exponential backoff
+   - `TokenRefreshMiddleware` for proactive refresh
+   - `ThrottlingMiddleware` for HTTP 429 handling
+
+5. **Integration testing** (T035-T038)
    - End-to-end authentication flow tests
    - Token refresh cycle validation
    - Multi-environment detection verification
-   - **Estimated**: ~12-16 hours
-
-2. **Phase 6: Configuration** (T040-T041)
-   - Execute Azure Key Vault setup
-   - Configure GitHub Secrets
-   - Document production deployment
-   - **Estimated**: ~2-4 hours
-
-3. **Contract Tests** (T012-T018)
-   - Write contract tests for IOAuthAuthenticator
-   - Write contract tests for ITokenStore implementations
-   - Write contract tests for middleware
-   - **Estimated**: ~8-12 hours
 
 ### Estimated Remaining Effort:
+- **Phase 4 completion**: ~20-25 hours
 - **Phase 5 completion**: ~12-16 hours
 - **Phase 6 completion**: ~2-4 hours
-- **Contract tests**: ~8-12 hours
-- **Total remaining**: ~22-32 hours (Phase 4 now complete)
-
----
-
-## Implementation Summary (This Session)
-
-### Completed Tasks (October 6, 2025):
-
-1. **T029: OAuthAuthenticator** ✅
-   - Main orchestrator with environment-based flow selection
-   - Proactive token refresh with 5-minute buffer
-   - Thread-safe operation with SemaphoreSlim
-   - Comprehensive error handling and logging
-   - Integration with telemetry and token stores
-   - **File**: `src/SpamRemovalAgent/Authentication/OAuthAuthenticator.cs`
-
-2. **T032: TokenRefreshMiddleware** ✅
-   - Proactive token refresh logic
-   - 5-minute expiration buffer
-   - Authentication required exception handling
-   - Clean integration with OAuthAuthenticator
-   - **File**: `src/SpamRemovalAgent/Authentication/Middleware/TokenRefreshMiddleware.cs`
-
-3. **T034: AuthenticationTelemetry** ✅
-   - Application Insights TelemetryClient integration
-   - Custom events for authentication lifecycle
-   - Sensitive data redaction (regex-based token filtering)
-   - All 5 tracking methods implemented
-   - Structured logging with ILogger<T>
-   - **File**: `src/SpamRemovalAgent/Observability/AuthenticationTelemetry.cs`
-
-4. **Package Installation** ✅
-   - Microsoft.ApplicationInsights v2.22.0 added
-   - Updated SpamRemovalAgent.csproj
-
-5. **Compilation Fixes** ✅
-   - Fixed logger factory pattern in OAuthAuthenticator
-   - Fixed GetRecommendedAuthMode() calls (no parameters)
-   - All 13 Phase 4 tasks now compile without errors
-
-### Key Features Implemented:
-
-- **Environment Detection**: Automatic detection of Windows/Azure/GitHub Actions
-- **Multi-Flow Support**: Interactive (PKCE) and Service Principal (client credentials)
-- **Secure Token Storage**: DPAPI, Azure Key Vault, GitHub Secrets
-- **Proactive Refresh**: 5-minute buffer before expiration
-- **Retry Logic**: Exponential backoff with jitter (2s-32s)
-- **Telemetry**: Application Insights integration with custom events
-- **Thread Safety**: SemaphoreSlim for concurrent refresh protection
-- **Comprehensive Logging**: Structured logging throughout
+- **Total remaining**: ~34-45 hours
 
 ---
 
@@ -336,45 +287,20 @@ dotnet test --no-build
 
 ### Key Design Choices:
 
-1. **Logger Factory Pattern**:
-   - OAuthAuthenticator uses ILoggerFactory to create flow-specific loggers
-   - Each auth flow gets its own typed logger (ILogger<InteractiveAuthFlow>, etc.)
-   - Improves log filtering and observability
-
-2. **Thread-Safe Token Refresh**:
-   - SemaphoreSlim prevents concurrent refresh operations
-   - Ensures only one thread refreshes token at a time
-   - Prevents race conditions in high-concurrency scenarios
-
-3. **Proactive Refresh Strategy**:
-   - 5-minute buffer before expiration (configurable constant)
-   - Reduces risk of expired tokens during API calls
-   - Improves user experience (no authentication interruptions)
-
-4. **Telemetry with Data Redaction**:
-   - Regex-based token detection and redaction
-   - Sensitive keywords flagged (secret, key, password)
-   - Ensures PII compliance and security
-
-5. **Environment-Based Configuration**:
-   - Environment variables take precedence over appsettings.json
-   - Supports 12-factor app principles
-   - Secure by default (no secrets in config files)
-
-6. **Namespace Collision Resolution** (Previous):
+1. **Namespace Collision Resolution**:
    - Discovered `Authentication.Environment` namespace conflicts with `System.Environment`
    - Resolution: Use fully qualified `System.Environment.GetEnvironmentVariable()`
 
-7. **DPAPI Implementation** (Previous):
+2. **DPAPI Implementation**:
    - Windows Credential Store uses file-based storage with DPAPI encryption
    - Location: `%LOCALAPPDATA%\SpamRemovalAgent\oauth.dat`
    - Encryption: `DataProtectionScope.CurrentUser` (user-scoped)
 
-8. **Version Adjustments** (Previous):
+3. **Version Adjustments**:
    - MSAL.NET updated from 4.61.0 → 4.76.0 to resolve Azure.Identity dependency conflict
-   - Microsoft.ApplicationInsights v2.22.0 added for telemetry support
+   - This is the version required by Azure.Identity 1.16.0
 
-9. **Test-Driven Approach** (Previous):
+4. **Test-Driven Approach**:
    - Contract tests created for data models FIRST (pass immediately - models already implemented)
    - Contract tests for interfaces created BEFORE implementations (TDD principle)
    - Test utilities (`TestOAuthTokenFactory`, `TestEnvironmentBuilder`) enable easy test setup
@@ -464,7 +390,6 @@ specs/002-oauth-2-0/
 ---
 
 **Document Status**: ✅ Current
-**Last Updated**: October 6, 2025, 18:45 UTC
-**Progress**: 42% complete (19/45 tasks) - Phase 4 Complete ✅
-**Next Milestone**: Phase 5 Integration Tests
+**Last Updated**: October 6, 2025, 14:30 UTC
+**Progress**: 35% complete (16/45 tasks)
 
