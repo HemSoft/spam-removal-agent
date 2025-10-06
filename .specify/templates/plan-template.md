@@ -34,20 +34,69 @@
 [Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
 **Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
+**Project Type**: [single/web/mobile - determines source structure]
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+## Constitution Check
+*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+
+**Autonomous Operation**:
+- [ ] Agent designed for continuous, unattended operation
+- [ ] Proper error handling that doesn't stop the agent
+- [ ] Clear termination conditions (no spam detected or manual stop)
+
+**Microsoft Graph Integration**:
+- [ ] Only Microsoft Graph .NET SDK used for email operations
+- [ ] No IMAP/POP3 or direct email protocol usage
+- [ ] OAuth 2.0 authentication with minimal permissions (Mail.ReadWrite)
+
+**Agent Framework Architecture**:
+- [ ] Built using Microsoft Agent Framework patterns
+- [ ] Proper agent lifecycle management implemented
+- [ ] Decision-making capabilities and extensibility considered
+
+**Conservative Spam Detection (NON-NEGOTIABLE)**:
+- [ ] Multiple validation layers with confidence thresholds
+- [ ] False negatives prioritized over false positives
+- [ ] All deletions logged with detailed reasoning
+- [ ] No risk of deleting legitimate emails
+
+**Comprehensive Logging & Observability**:
+- [ ] Structured logging for all agent actions
+- [ ] Email metadata, confidence scores, and decision rationale logged
+- [ ] Proper log levels and observability patterns
+- [ ] Performance monitoring and error tracking
+- [ ] Application Insights integrated for telemetry and distributed tracing
+- [ ] .NET Aspire used for development-time observability and orchestration
+
+**Technology Stack Requirements**:
+- [ ] .NET 10 C# Console Application architecture
+- [ ] .NET Aspire integration for orchestration and service discovery
+- [ ] Application Insights configured for production monitoring
+- [ ] Local Windows 10 deployment with Microsoft Agent Framework
+- [ ] Modern C# language features and performance optimizations utilized
+
+**Security Requirements**:
+- [ ] OAuth tokens stored securely (Windows Credential Manager)
+- [ ] No credentials in plain text or config files
+- [ ] Local email processing without external service calls
+- [ ] Minimal Graph API permissions requested
+
+**Quality Standards**:
+- [ ] Exponential backoff and circuit breaker patterns
+- [ ] API rate limiting and batching implemented
+- [ ] Comprehensive unit and integration tests
+- [ ] Performance targets met (100+ emails/minute)
 
 ## Project Structure
 
@@ -169,12 +218,12 @@ directories captured above]
 - Load `.specify/templates/tasks-template.md` as base
 - Generate tasks from Phase 1 design docs (contracts, data model, quickstart)
 - Each contract → contract test task [P]
-- Each entity → model creation task [P] 
+- Each entity → model creation task [P]
 - Each user story → integration test task
 - Implementation tasks to make tests pass
 
 **Ordering Strategy**:
-- TDD order: Tests before implementation 
+- TDD order: Tests before implementation
 - Dependency order: Models before services before UI
 - Mark [P] for parallel execution (independent files)
 
@@ -185,8 +234,8 @@ directories captured above]
 ## Phase 3+: Future Implementation
 *These phases are beyond the scope of the /plan command*
 
-**Phase 3**: Task execution (/tasks command creates tasks.md)  
-**Phase 4**: Implementation (execute tasks.md following constitutional principles)  
+**Phase 3**: Task execution (/tasks command creates tasks.md)
+**Phase 4**: Implementation (execute tasks.md following constitutional principles)
 **Phase 5**: Validation (run tests, execute quickstart.md, performance validation)
 
 ## Complexity Tracking
@@ -216,4 +265,4 @@ directories captured above]
 - [ ] Complexity deviations documented
 
 ---
-*Based on Constitution v2.1.1 - See `/memory/constitution.md`*
+*Based on Constitution v1.1.0 - See `.specify/memory/constitution.md`*
