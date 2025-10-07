@@ -7,6 +7,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+    <!-- Suppress xUnit analyzer for CancellationToken in tests - not using TestContext pattern -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+    <!-- Suppress platform-specific warnings for Windows-only tests - handled with runtime checks -->
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
 
     <!-- To enable Microsoft.Testing.Platform, uncomment the following line. -->
     <!-- <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner> -->
